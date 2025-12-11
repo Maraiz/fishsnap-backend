@@ -1,0 +1,188 @@
+### Register User
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+  "name": "Maulana Nurfaizi",
+  "phone": "0812345678900",
+  "email": "maulanas@example.com",
+  "gender": "male",
+  "password": "password123",
+  "confirmPassword": "password123"
+}
+
+### Login User
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "anakbudiman01@gmail.com",
+  "password": "123456"
+}
+
+### Register Admin
+POST http://localhost:5000/admin/create
+Content-Type: application/json
+
+{
+  "name": "Super Admin",
+  "phone": "081234567897",
+  "email": "superadmin@fishmap.com",
+  "gender": "male",
+  "password": "password123",
+  "role": "super_admin"
+}
+
+### Login Admin
+POST http://localhost:5000/admin/login
+Content-Type: application/json
+
+{
+  "email": "superadmin@fishmap.com",
+  "password": "password123"
+}
+
+### tes
+GET http://localhost:5000/api/catalog/entries?my_data_only=true
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJNYXVsYW5hIE51cmZhaXppIEFudWdlcmFoIiwiZW1haWwiOiJhbmFrYnVkaW1hbjAxQGdtYWlsLmNvbSIsImlhdCI6MTc1NjE3ODQwNiwiZXhwIjoxNzU2MTgyMDA2fQ.ZbLsHw41TF_5-W0SmFI-m3LvFmmpcoo7uSufYr3lGr4
+
+### Create Galery - Pantai
+POST http://localhost:5000/api/galery
+Content-Type: application/json  
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "nama": "Pantai Pink Komodo",
+  "gambar": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=",
+  "deskripsi": "Pantai berpasir pink yang unik di Pulau Komodo, Nusa Tenggara Timur. Warna pink berasal dari serpihan karang merah yang bercampur dengan pasir putih."
+}
+
+### ============================================
+### RECIPE API ENDPOINTS
+### ============================================
+
+### Get All Recipes (Public)
+GET http://localhost:5000/api/recipes
+Content-Type: application/json
+
+### Get All Recipes with Pagination
+GET http://localhost:5000/api/recipes?page=1&limit=10
+Content-Type: application/json
+
+### Search Recipes by Title or Ingredients
+GET http://localhost:5000/api/recipes?search=goreng
+Content-Type: application/json
+
+### Filter Recipes by Fish Name
+GET http://localhost:5000/api/recipes?fish_name=Nila
+Content-Type: application/json
+
+### Search and Filter Combined
+GET http://localhost:5000/api/recipes?search=sambal&fish_name=Bandeng
+Content-Type: application/json
+
+### Get Recipe by ID
+GET http://localhost:5000/api/recipes/1
+Content-Type: application/json
+
+### Get Recipes by Fish Name (Specific Endpoint)
+GET http://localhost:5000/api/recipes/fish/Nila
+Content-Type: application/json
+
+### Get Unique Fish Names (for Dropdown)
+GET http://localhost:5000/api/recipes/fish-names
+Content-Type: application/json
+
+### ============================================
+### ADMIN ONLY - CREATE, UPDATE, DELETE
+### ============================================
+
+### Create Recipe - Nila Goreng Sambal Matah (Admin Only)
+POST http://localhost:5000/api/recipes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE1NDE4OTgsImV4cCI6MTc2MTU3MDY5OH0.BVGaIzv_mwMpWp4QD4tRr5hLG40PyUpZf7SND2iSY7g
+
+{
+  "fish_name": "Nilas",
+  "title": "Nila Goreng Sambal Matah",
+  "image_url": "https://example.com/nila-sambal-matah.jpg",
+  "ingredients": "- 2 ekor ikan nila segar\n- 10 cabai rawit merah\n- 8 siung bawang merah iris tipis\n- 3 batang serai iris halus\n- 5 lembar daun jeruk iris tipis\n- 2 sdm minyak goreng\n- 1 sdt garam\n- 1 sdt gula\n- 2 sdm air jeruk nipis",
+  "instructions": "1. Bersihkan ikan nila, lumuri dengan garam dan air jeruk nipis, diamkan 15 menit\n2. Goreng ikan hingga kuning kecoklatan dan matang, angkat dan tiriskan\n3. Iris tipis semua bahan sambal matah\n4. Panaskan minyak, tuang ke atas irisan bahan sambal\n5. Aduk rata, tambahkan garam, gula, dan air jeruk nipis\n6. Siram sambal matah di atas ikan nila goreng\n7. Sajikan hangat dengan nasi putih dan lalapan"
+}
+
+### Create Recipe - Bandeng Presto (Admin Only)
+POST http://localhost:5000/api/recipes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "fish_name": "Bandeng",
+  "title": "Bandeng Presto Khas Semarang",
+  "image_url": "https://example.com/bandeng-presto.jpg",
+  "ingredients": "- 2 ekor bandeng ukuran sedang\n- 5 lembar daun salam\n- 3 batang serai, memarkan\n- 5 cm lengkuas, memarkan\n- 1 sdt garam\n- 1 sdt merica bubuk\n- 2 sdm air jeruk nipis\n- Air secukupnya untuk presto",
+  "instructions": "1. Bersihkan bandeng, buang isi perut dan insang\n2. Lumuri dengan garam, merica, dan air jeruk nipis\n3. Diamkan 30 menit agar bumbu meresap\n4. Masukkan daun salam, serai, dan lengkuas ke dalam panci presto\n5. Tata ikan bandeng di atas daun\n6. Tambahkan air hingga ikan terendam setengahnya\n7. Tutup presto, masak dengan api sedang selama 45-60 menit\n8. Setelah uap keluar, kecilkan api dan masak 30 menit lagi\n9. Matikan api, tunggu hingga uap habis baru buka\n10. Angkat bandeng, goreng sebentar hingga kering (opsional)\n11. Sajikan dengan sambal dan nasi hangat"
+}
+
+### Create Recipe - Lele Goreng Kremes (Admin Only)
+POST http://localhost:5000/api/recipes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "fish_name": "Lele",
+  "title": "Lele Goreng Kremes Renyah",
+  "image_url": "https://example.com/lele-kremes.jpg",
+  "ingredients": "- 4 ekor lele ukuran sedang\n- 5 siung bawang putih haluskan\n- 1 sdt ketumbar bubuk\n- 1 sdt garam\n- 500ml air\n- 100gr tepung beras\n- 50gr tepung terigu\n- 1 butir telur\n- Minyak untuk menggoreng",
+  "instructions": "1. Bersihkan lele, buang lendir dengan air panas\n2. Haluskan bawang putih, ketumbar, dan garam\n3. Campur bumbu halus dengan air, rendam lele 20 menit\n4. Angkat lele, tiriskan\n5. Campur tepung beras, tepung terigu, telur, dan sisa air rendaman\n6. Celupkan lele ke adonan tepung\n7. Goreng dengan minyak panas hingga kuning kecoklatan\n8. Untuk kremes: goreng sisa adonan tepung hingga renyah\n9. Sajikan lele dengan kremes di atasnya\n10. Tambahkan sambal dan lalapan"
+}
+
+### Create Recipe - Gurame Asam Manis (Admin Only)
+POST http://localhost:5000/api/recipes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "fish_name": "Gurame",
+  "title": "Gurame Asam Manis Saus Tomat",
+  "image_url": "https://example.com/gurame-asam-manis.jpg",
+  "ingredients": "- 1 ekor gurame ukuran besar\n- 1 buah tomat besar, potong dadu\n- 1 buah paprika merah, potong kotak\n- 1 buah bawang bombay, iris\n- 3 sdm saus tomat\n- 2 sdm saus sambal\n- 2 sdm kecap manis\n- 1 sdm gula pasir\n- 1 sdt garam\n- 100ml air\n- Tepung maizena untuk mengentalkan",
+  "instructions": "1. Bersihkan gurame, beri garam dan jeruk nipis, goreng hingga matang\n2. Tumis bawang bombay hingga harum\n3. Masukkan tomat dan paprika, tumis sebentar\n4. Tambahkan saus tomat, saus sambal, dan kecap manis\n5. Tuang air, masukkan gula dan garam\n6. Masak hingga mendidih\n7. Kentalkan dengan larutan maizena\n8. Koreksi rasa, matikan api\n9. Siram saus asam manis di atas gurame goreng\n10. Sajikan hangat"
+}
+
+### Create Recipe - Kakap Bakar Bumbu Kecap (Admin Only)
+POST http://localhost:5000/api/recipes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE1NTA5MzksImV4cCI6MTc2MTU3OTczOX0.bTW_5mZ7fd_8w8UuDtde7kyjGSqnde11vIJd40oyacU
+
+{
+  "fish_name": "Ikan Kakap",
+  "title": "Kakap Bakar Bumbu Kecap Pedas",
+  "image_url": "https://example.com/kakap-bakar.jpg",
+  "ingredients": "- 1 ekor kakap merah segar (500-700gr)\n- 5 sdm kecap manis\n- 3 sdm kecap asin\n- 10 cabai rawit merah\n- 8 siung bawang putih\n- 5 butir bawang merah\n- 2 sdm air jeruk nipis\n- 1 sdt garam\n- 2 batang serai, memarkan\n- Daun pisang untuk membungkus",
+  "instructions": "1. Bersihkan kakap, buat sayatan menyilang di kedua sisi\n2. Haluskan cabai, bawang putih, dan bawang merah\n3. Campur bumbu halus dengan kecap manis, kecap asin, garam, dan air jeruk nipis\n4. Lumuri ikan dengan bumbu hingga merata, masukkan ke sayatan\n5. Diamkan 30 menit agar bumbu meresap\n6. Letakkan ikan di atas daun pisang\n7. Tambahkan serai di atas ikan\n8. Bungkus ikan dengan daun pisang\n9. Bakar di atas bara api atau panggang di oven 200°C selama 25-30 menit\n10. Balik sekali agar matang merata\n11. Buka bungkus, sajikan dengan sambal dan nasi"
+}
+
+### Update Recipe (Admin Only)
+PUT http://localhost:5000/api/recipes/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "title": "Nila Goreng Sambal Matah Pedas",
+  "ingredients": "- 2 ekor ikan nila segar\n- 15 cabai rawit merah (lebih pedas)\n- 8 siung bawang merah iris tipis\n- 3 batang serai iris halus\n- 5 lembar daun jeruk iris tipis\n- 2 sdm minyak goreng\n- 1 sdt garam\n- 1 sdt gula\n- 2 sdm air jeruk nipis\n- 1 sdt terasi bakar (tambahan)"
+}
+
+### Update Recipe - Partial Update (Admin Only)
+PUT http://localhost:5000/api/recipes/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk
+
+{
+  "image_url": "https://example.com/new-bandeng-presto-image.jpg"
+}
+
+### Delete Recipe (Admin Only)
+DELETE http://localhost:5000/api/recipes/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoxLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AZmlzaG1hcC5jb20iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NTYyNzU1NjcsImV4cCI6MTc1NjMwNDM2N30.qxAdk2nQk1Wz_Z0JGhe8RXPBZWHkR_D9eOkL_cu4Ulk

@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1754363002875,
+    "fish_name": "Ikan Lele",
+    "predicted_class": "Catfish",
+    "confidence": 88.26,
+    "habitat": "Sungai, rawa, dan kolam",
+    "konsumsi": "Aman dikonsumsi",
+    "top_predictions": [
+      {
+        "class": "Catfish",
+        "confidence": "88.26%"
+      },
+      {
+        "class": "Gobio gobio",
+        "confidence": "2.32%"
+      },
+      {
+        "class": "Neogobius melanostomus",
+        "confidence": "2.18%"
+      }
+    ],
+    "saved_to_catalog": false,
+    "image_path": "data/images/scan_2025-08-05T03-03-22-859Z.jpg",
+    "original_filename": "images.jpg",
+    "createdAt": "2025-08-05T03:03:22.875Z"
+  },
+  {
+    "id": 1754363045398,
+    "fish_name": "Ikan Lele",
+    "predicted_class": "Catfish",
+    "confidence": 88.26,
+    "habitat": "Sungai, rawa, dan kolam",
+    "konsumsi": "Aman dikonsumsi",
+    "top_predictions": [
+      {
+        "class": "Catfish",
+        "confidence": "88.26%"
+      },
+      {
+        "class": "Gobio gobio",
+        "confidence": "2.32%"
+      },
+      {
+        "class": "Neogobius melanostomus",
+        "confidence": "2.18%"
+      }
+    ],
+    "saved_to_catalog": false,
+    "image_path": "data/images/scan_2025-08-05T03-04-05-392Z.jpg",
+    "original_filename": "images.jpg",
+    "createdAt": "2025-08-05T03:04:05.398Z"
+  },
+  {
+    "id": 1754363048900,
+    "fish_name": "Ikan Lele",
+    "predicted_class": "Catfish",
+    "confidence": 88.26,
+    "habitat": "Sungai, rawa, dan kolam",
+    "konsumsi": "Aman dikonsumsi",
+    "top_predictions": [
+      {
+        "class": "Catfish",
+        "confidence": "88.26%"
+      },
+      {
+        "class": "Gobio gobio",
+        "confidence": "2.32%"
+      },
+      {
+        "class": "Neogobius melanostomus",
+        "confidence": "2.18%"
+      }
+    ],
+    "saved_to_catalog": false,
+    "image_path": "data/images/scan_2025-08-05T03-04-08-892Z.jpg",
+    "original_filename": "images.jpg",
+    "createdAt": "2025-08-05T03:04:08.900Z"
+  },
+  {
+    "id": 1754363072817,
+    "fish_name": "Ikan Lele",
+    "predicted_class": "Catfish",
+    "confidence": 88.26,
+    "habitat": "Sungai, rawa, dan kolam",
+    "konsumsi": "Aman dikonsumsi",
+    "top_predictions": [
+      {
+        "class": "Catfish",
+        "confidence": "88.26%"
+      },
+      {
+        "class": "Gobio gobio",
+        "confidence": "2.32%"
+      },
+      {
+        "class": "Neogobius melanostomus",
+        "confidence": "2.18%"
+      }
+    ],
+    "saved_to_catalog": false,
+    "image_path": "data/images/scan_2025-08-05T03-04-32-810Z.jpg",
+    "original_filename": "images.jpg",
+    "createdAt": "2025-08-05T03:04:32.817Z"
+  }
+]

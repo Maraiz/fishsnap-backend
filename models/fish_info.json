@@ -1,0 +1,52 @@
+{
+  "Bandeng": {
+    "nama_indonesia": "Ikan Bandeng",
+    "habitat": "Perairan payau dan laut, sering ditemukan di tambak",
+    "konsumsi": "Aman dikonsumsi, sering diolah menjadi bandeng presto"
+  },
+  "Cupang": {
+    "nama_indonesia": "Ikan Cupang",
+    "habitat": "Sawah, rawa, dan kolam air tenang",
+    "konsumsi": "Tidak umum dikonsumsi (lebih sering dipelihara sebagai ikan hias)"
+  },
+  "Gabus": {
+    "nama_indonesia": "Ikan Gabus",
+    "habitat": "Sungai, rawa, dan danau air tawar",
+    "konsumsi": "Aman dikonsumsi, tinggi protein albumin yang baik untuk penyembuhan luka"
+  },
+  "Gurami": {
+    "nama_indonesia": "Ikan Gurami",
+    "habitat": "Kolam dan danau air tawar yang tenang",
+    "konsumsi": "Aman dikonsumsi, dagingnya tebal dan sering dijadikan menu utama restoran"
+  },
+  "Kakap": {
+    "nama_indonesia": "Ikan Kakap",
+    "habitat": "Perairan laut dangkal dan terumbu karang",
+    "konsumsi": "Aman dikonsumsi, populer sebagai ikan konsumsi bernilai ekonomi tinggi"
+  },
+  "Kerapu": {
+    "nama_indonesia": "Ikan Kerapu",
+    "habitat": "Terumbu karang dan perairan laut hangat",
+    "konsumsi": "Aman dikonsumsi, bernilai jual tinggi dan sering diekspor"
+  },
+  "Mujair": {
+    "nama_indonesia": "Ikan Mujair",
+    "habitat": "Sungai, danau, dan kolam air tawar",
+    "konsumsi": "Aman dikonsumsi, banyak dibudidayakan di Indonesia"
+  },
+  "Nila": {
+    "nama_indonesia": "Ikan Nila",
+    "habitat": "Danau, sungai, dan kolam air tawar",
+    "konsumsi": "Aman dikonsumsi"
+  },
+  "Tenggiri": {
+    "nama_indonesia": "Ikan Tenggiri",
+    "habitat": "Perairan laut tropis dan subtropis",
+    "konsumsi": "Aman dikonsumsi, sering dijadikan bahan utama untuk pempek dan otak-otak"
+  },
+  "Tongkol": {
+    "nama_indonesia": "Ikan Tongkol",
+    "habitat": "Perairan laut lepas dan pantai",
+    "konsumsi": "Aman dikonsumsi, sumber protein tinggi dan sering dijadikan lauk sehari-hari"
+  }
+}
