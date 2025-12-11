@@ -31,10 +31,23 @@ const connectDB = async () => {
 connectDB();
 
 // CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://fishsnap-frontend.vercel.app",
+  "https://api-fitcalori.my.id"
+];
+
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:5173'
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
 }));
+
 
 app.use(cookieParser());
 
