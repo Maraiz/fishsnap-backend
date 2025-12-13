@@ -31,16 +31,20 @@ const connectDB = async () => {
 connectDB();
 
 // CORS
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://fishsnap-frontend.vercel.app",
-  "https://api-fitcalori.my.id"
-];
-
+// ✅ CORS FIX (WAJIB UNTUK HP & KAMERA)
 app.use(cors({
-  origin: true,
-  credentials: true
+  origin: [
+    'https://fitcalori.my.id',
+    'https://www.fitcalori.my.id'
+  ],
+  credentials: false, // ⛔ HARUS FALSE
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// ✅ Handle preflight request (HP butuh ini)
+app.options('*', cors());
+
 
 app.use(cookieParser());
 
