@@ -21,7 +21,7 @@ const connectDB = async () => {
     console.log('✅ Database connected');
 
     // 🔥 Auto create/update tabel dari model
-    // await db.sync({ alter: true }); // aman, tidak hapus data
+    await db.sync({ alter: true }); // aman, tidak hapus data
     console.log('🟢 All models synchronized');
 
   } catch (error) {
@@ -38,16 +38,9 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  credentials: true,
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
+  origin: true,
+  credentials: true
 }));
-
 
 app.use(cookieParser());
 
