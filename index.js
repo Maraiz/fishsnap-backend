@@ -30,20 +30,35 @@ const connectDB = async () => {
 };
 connectDB();
 
-// CORS
-// ✅ CORS FIX (WAJIB UNTUK HP & KAMERA)
+import cors from 'cors';
+
+const allowedOrigins = [
+  'https://fishsnap-frontend.vercel.app',
+  'https://fitcalori.my.id',
+  'https://www.fitcalori.my.id',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: [
-    'https://fitcalori.my.id',
-    'https://www.fitcalori.my.id'
-  ],
-  credentials: false, // ⛔ HARUS FALSE
+  origin: function (origin, callback) {
+    // allow request tanpa origin (Postman, curl, mobile app)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('❌ CORS BLOCKED:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: false, // ⛔ WAJIB FALSE (karena pakai Authorization header)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// ✅ Handle preflight request (HP butuh ini)
+// ✅ WAJIB untuk preflight (HP & Authorization)
 app.options('*', cors());
+
 
 
 app.use(cookieParser());
