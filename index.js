@@ -21,7 +21,7 @@ const connectDB = async () => {
     console.log('✅ Database connected');
 
     // 🔥 Auto create/update tabel dari model
-    await db.sync({ alter: true }); // aman, tidak hapus data
+    // await db.sync({ alter: true }); // aman, tidak hapus data
     console.log('🟢 All models synchronized');
 
   } catch (error) {
