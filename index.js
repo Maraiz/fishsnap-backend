@@ -21,7 +21,7 @@ const connectDB = async () => {
     console.log('✅ Database connected');
 
     // 🔥 Auto create/update tabel dari model
-    // await db.sync({ alter: true }); // aman, tidak hapus data
+    //await db.sync({ alter: true }); // aman, tidak hapus data
     console.log('🟢 All models synchronized');
 
   } catch (error) {
@@ -30,23 +30,29 @@ const connectDB = async () => {
 };
 connectDB();
 
-// CORS
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://fishsnap-frontend.vercel.app",
-  "https://api-fitcalori.my.id"
+  'http://localhost:5173',
+  'https://fishsnap-frontend.vercel.app'
 ];
 
 app.use(cors({
-  credentials: true,
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // IZINKAN request dari Postman / mobile (origin = undefined)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials: true, // HARUS TRUE karena frontend pakai credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.options('/*splat', cors());
+
 
 
 app.use(cookieParser());
