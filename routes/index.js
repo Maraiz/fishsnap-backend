@@ -5,6 +5,8 @@ import path from 'path';
 import multer from 'multer';
 import bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
+import chatbotRoutes from './chatbot.js';
+
 
 // ==================== CONTROLLERS ====================
 import {
@@ -187,4 +189,5 @@ router.get('/admin/all', verifyAdminToken, requireSuperAdmin, getAllAdmins);
 router.put('/admin/:adminId/status', verifyAdminToken, requireSuperAdmin, updateAdminStatus);
 router.put('/admin/:adminId/password', verifyAdminToken, updateAdminPassword);
 
+router.use(chatbotRoutes);
 export default router;
