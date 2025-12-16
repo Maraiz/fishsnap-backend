@@ -134,7 +134,7 @@ export const createAdmin = async (req, res) => {
 export const getAdminDashboardStats = async (req, res) => {
     try {
         const adminId = req.adminId;
-        
+
         // Cek admin permission
         const admin = await Admin.findByPk(adminId);
         if (!admin) {
@@ -149,18 +149,18 @@ export const getAdminDashboardStats = async (req, res) => {
         const stats = await Promise.all([
             // Total users
             Users.count(),
-            
+
             // Users by role (hanya user dan admin)
             Users.count({ where: { role: 'user' } }),
             Users.count({ where: { role: 'admin' } }),
-            
+
             // Total predictions
             FishPredictions.count()
         ]);
 
         const [
             totalUsers,
-            regularUsers, 
+            regularUsers,
             adminUsers,
             totalPredictions
         ] = stats;
@@ -195,58 +195,68 @@ export const loginAdmin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // Validasi input
         if (!email || !password) {
             return res.status(400).json({ msg: "Email dan password harus diisi" });
         }
 
+        // Cari admin berdasarkan email
         const admin = await Admin.findOne({ where: { email } });
         if (!admin) {
             return res.status(404).json({ msg: "Email tidak ditemukan" });
         }
 
+        // Cocokkan password
         const match = await bcrypt.compare(password, admin.password);
         if (!match) {
             return res.status(400).json({ msg: "Password salah" });
         }
 
+        // Cek status admin
         if (admin.status !== 'active') {
-            return res.status(403).json({ 
+            return res.status(403).json({
                 msg: `Akun admin ${admin.status}. Hubungi super admin.`
             });
         }
 
+        // Buat access token (shorter expiry for cookies)
         const accessToken = jwt.sign(
             { adminId: admin.id, name: admin.name, email: admin.email },
             process.env.ADMIN_ACCESS_TOKEN_SECRET,
             { expiresIn: '15m' }
         );
 
+        // Buat refresh token
         const refreshToken = jwt.sign(
             { adminId: admin.id, name: admin.name, email: admin.email },
             process.env.ADMIN_REFRESH_TOKEN_SECRET,
             { expiresIn: '7d' }
         );
 
+        // Update refresh token dan last login di database
         await Admin.update(
-            { 
+            {
                 refresh_token: refreshToken,
                 last_login: new Date()
             },
             { where: { id: admin.id } }
         );
 
-        // ✅ PERBAIKAN COOKIE SETTINGS
-        const cookieOptions = {
+        // Set access token ke HTTP-only cookie
+        res.cookie('adminAccessToken', accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // true di production
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ✅ HARUS 'none' untuk cross-domain
-            domain: process.env.NODE_ENV === 'production' ? '.my.id' : undefined // ✅ Share across *.my.id
-        };
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 15 * 60 * 1000 // 15 menit
+        });
 
-        // Set refresh token cookie (7 hari)
+        // Set refresh token ke HTTP-only cookie
         res.cookie('adminRefreshToken', refreshToken, {
-            ...cookieOptions,
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 hari
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         res.status(200).json({
@@ -273,6 +283,7 @@ export const logoutAdmin = async (req, res) => {
 
     try {
         if (refreshToken) {
+            // Find admin and clear refresh token from database
             const admin = await Admin.findOne({
                 where: { refresh_token: refreshToken }
             });
@@ -285,24 +296,31 @@ export const logoutAdmin = async (req, res) => {
             }
         }
 
-        // ✅ PERBAIKAN COOKIE SETTINGS
-        const cookieOptions = {
+        // Clear both cookies
+        res.clearCookie('adminAccessToken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            domain: process.env.NODE_ENV === 'production' ? '.my.id' : undefined
-        };
+            sameSite: 'Strict'
+        });
 
-        res.clearCookie('adminRefreshToken', cookieOptions);
+        res.clearCookie('adminRefreshToken', {  // Ubah nama, dan hapus duplikat kode
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            path: '/'
+        });
 
         res.json({ msg: "Logout admin berhasil" });
 
     } catch (error) {
         console.error('Admin logout error:', error);
+        // Still clear cookies even if database operation fails
+        res.clearCookie('adminAccessToken');
         res.clearCookie('adminRefreshToken');
         res.status(500).json({ msg: "Server error, but cookies cleared" });
     }
 };
+
 // ⭐ GET ALL ADMINS (hanya super_admin yang bisa akses)
 export const getAllAdmins = async (req, res) => {
     try {
@@ -318,7 +336,7 @@ export const getAllAdmins = async (req, res) => {
 
         const admins = await Admin.findAll({
             attributes: [
-                'id', 'name', 'email', 'phone', 'gender', 'role', 'status', 
+                'id', 'name', 'email', 'phone', 'gender', 'role', 'status',
                 'last_login', 'createdAt'
             ],
             include: [
@@ -385,7 +403,7 @@ export const updateAdminStatus = async (req, res) => {
         // Update status
         await Admin.update(
             { status: status },
-            { 
+            {
                 where: { id: adminId },
                 adminId: currentAdminId // Untuk tracking updated_by via hook
             }
@@ -472,11 +490,11 @@ export const updateAdminPassword = async (req, res) => {
 
         // Update password
         await Admin.update(
-            { 
+            {
                 password: hashPassword,
                 refresh_token: null // Clear refresh token untuk force re-login
             },
-            { 
+            {
                 where: { id: adminId },
                 adminId: requestingAdminId // Untuk tracking updated_by
             }
