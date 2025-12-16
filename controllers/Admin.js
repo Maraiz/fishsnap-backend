@@ -195,45 +195,38 @@ export const loginAdmin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Validasi input
         if (!email || !password) {
             return res.status(400).json({ msg: "Email dan password harus diisi" });
         }
 
-        // Cari admin berdasarkan email
         const admin = await Admin.findOne({ where: { email } });
         if (!admin) {
             return res.status(404).json({ msg: "Email tidak ditemukan" });
         }
 
-        // Cocokkan password
         const match = await bcrypt.compare(password, admin.password);
         if (!match) {
             return res.status(400).json({ msg: "Password salah" });
         }
 
-        // Cek status admin
         if (admin.status !== 'active') {
             return res.status(403).json({ 
                 msg: `Akun admin ${admin.status}. Hubungi super admin.`
             });
         }
 
-        // Buat access token (shorter expiry for cookies)
         const accessToken = jwt.sign(
             { adminId: admin.id, name: admin.name, email: admin.email },
             process.env.ADMIN_ACCESS_TOKEN_SECRET,
             { expiresIn: '15m' }
         );
 
-        // Buat refresh token
         const refreshToken = jwt.sign(
             { adminId: admin.id, name: admin.name, email: admin.email },
             process.env.ADMIN_REFRESH_TOKEN_SECRET,
             { expiresIn: '7d' }
         );
 
-        // Update refresh token dan last login di database
         await Admin.update(
             { 
                 refresh_token: refreshToken,
@@ -242,19 +235,17 @@ export const loginAdmin = async (req, res) => {
             { where: { id: admin.id } }
         );
 
-        // Set access token ke HTTP-only cookie
-        res.cookie('adminAccessToken', accessToken, {
+        // ✅ PERBAIKAN COOKIE SETTINGS
+        const cookieOptions = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
-            maxAge: 15 * 60 * 1000 // 15 menit
-        });
+            secure: process.env.NODE_ENV === 'production', // true di production
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ✅ HARUS 'none' untuk cross-domain
+            domain: process.env.NODE_ENV === 'production' ? '.my.id' : undefined // ✅ Share across *.my.id
+        };
 
-        // Set refresh token ke HTTP-only cookie
+        // Set refresh token cookie (7 hari)
         res.cookie('adminRefreshToken', refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            ...cookieOptions,
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 hari
         });
 
@@ -282,7 +273,6 @@ export const logoutAdmin = async (req, res) => {
 
     try {
         if (refreshToken) {
-            // Find admin and clear refresh token from database
             const admin = await Admin.findOne({
                 where: { refresh_token: refreshToken }
             });
@@ -295,30 +285,24 @@ export const logoutAdmin = async (req, res) => {
             }
         }
 
-        // Clear both cookies
-        res.clearCookie('adminAccessToken', {
+        // ✅ PERBAIKAN COOKIE SETTINGS
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict'
-        });
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            domain: process.env.NODE_ENV === 'production' ? '.my.id' : undefined
+        };
 
-        res.clearCookie('adminRefreshToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict'
-        });
+        res.clearCookie('adminRefreshToken', cookieOptions);
 
         res.json({ msg: "Logout admin berhasil" });
 
     } catch (error) {
         console.error('Admin logout error:', error);
-        // Still clear cookies even if database operation fails
-        res.clearCookie('adminAccessToken');
         res.clearCookie('adminRefreshToken');
         res.status(500).json({ msg: "Server error, but cookies cleared" });
     }
 };
-
 // ⭐ GET ALL ADMINS (hanya super_admin yang bisa akses)
 export const getAllAdmins = async (req, res) => {
     try {
